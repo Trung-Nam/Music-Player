@@ -25,11 +25,14 @@ const progress = $('#progress');
 const nextBtn = $('.btn-next');
 const prevBtn = $('.btn-prev');
 const randomBtn = $('.btn-random');
+const repeatBtn = $('.btn-repeat');
+
 
 const app = {
     currentIndex: 0,
     isPlaying: false,
     isRandom: false,
+    isRepeat: false,
     songs: [
         {
             name: "Chỉ Bằng Cái Gật Đầu (Remix)",
@@ -164,6 +167,23 @@ const app = {
             _this.isRandom = !_this.isRandom;
             randomBtn.classList.add('active', _this.isRandom);
         }
+
+        // Xử lý repeat 1 song
+        repeatBtn.onclick = function () {
+            _this.isRepeat = !_this.isRepeat;
+            repeatBtn.classList.add('active', _this.isRepeat);
+        }
+
+        // Xử lý next song khi audio ended
+        audio.onended = function () {
+            if(_this.isRepeat){
+                audio.play();
+            }else{
+                nextBtn.click();
+            }
+        }
+
+
     },
     loadCurrentSong: function () {
         heading.textContent = this.currentSong.name;
