@@ -151,9 +151,10 @@ const app = {
             }
             audio.play();
             _this.render();
+            _this.scrollToActiveSong();
         }
 
-        // Khi back bài hát 
+        // Khi prev bài hát 
         prevBtn.onclick = function () {
             if (_this.isRandom) {
                 _this.playRandomSong();
@@ -162,6 +163,7 @@ const app = {
             }
             audio.play();
             _this.render();
+            _this.scrollToActiveSong();
         }
 
         // Xử lý bật tắt random song 
@@ -186,6 +188,14 @@ const app = {
         }
 
 
+    },
+    scrollToActiveSong: function () {
+        setTimeout(() => {
+            $('.song.active').scrollIntoView({
+                behavior: 'smooth',
+                block: 'nearest'
+            });
+        }, 300);
     },
     loadCurrentSong: function () {
         heading.textContent = this.currentSong.name;
