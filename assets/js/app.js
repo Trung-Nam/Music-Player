@@ -26,7 +26,7 @@ const nextBtn = $('.btn-next');
 const prevBtn = $('.btn-prev');
 const randomBtn = $('.btn-random');
 const repeatBtn = $('.btn-repeat');
-
+const playlist = $('.playlist');
 
 const app = {
     currentIndex: 0,
@@ -57,7 +57,7 @@ const app = {
     render: function () {
         const htmls = this.songs.map((song, index) => {
             return `
-            <div class="song ${index === this.currentIndex ? 'active' : ''}">
+            <div class="song ${index === this.currentIndex ? 'active' : ''}" data-index="${index}">
             <div class="thumb"
                 style="background-image: url('${song.image}')">
             </div>
@@ -187,6 +187,24 @@ const app = {
             }
         }
 
+        // Lắng nghe hành vi click vào playlist
+        playlist.onclick = function (e) {
+            const songNode = e.target.closest('.song:not(.active)');
+            if(songNode || e.target.closest('.option')){
+               // Xử lý khi click vào song
+                if(songNode){
+                   _this.currentIndex = Number(songNode.dataset.index);
+                   _this.loadCurrentSong();
+                   _this.render();
+                   audio.play();
+                }
+
+                // Xử lý khi click vào song option
+                if(e.target.closest('.option')){
+
+                }
+            }
+        }
 
     },
     scrollToActiveSong: function () {
