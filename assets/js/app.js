@@ -4,7 +4,7 @@
 3. Play / Pause / Seek
 4. CD Rotate
 5. Next / Previous
-6. Random
+6. Random song
 7. Next / Repeat when ended
 8. Active song 
 9. Scroll active song into view
@@ -24,10 +24,12 @@ const playBtn = $('.btn-toggle-play');
 const progress = $('#progress');
 const nextBtn = $('.btn-next');
 const prevBtn = $('.btn-prev');
-console.log(playBtn);
+const randomBtn = $('.btn-random');
+
 const app = {
     currentIndex: 0,
     isPlaying: false,
+    isRandom: false,
     songs: [
         {
             name: "Chỉ Bằng Cái Gật Đầu (Remix)",
@@ -40,6 +42,12 @@ const app = {
             singer: "Dunghoangpham x Đình Dũng x Ciray",
             path: "./music/Đế Vương Remix.mp3",
             image: "./img/Đế Vương Remix.jpg"
+        },
+        {
+            name: "Chỉ Bằng Cái Gật Đầu (Remix)",
+            singer: " Yan Nguyễn",
+            path: "./music/Chỉ Bằng Cái Gật Đầu Remix - (Yan Nguyễn x Đại Mèo).mp3",
+            image: "./img/Chỉ Bằng Cái Gật Đầu (Remix).jpg"
         }
     ],
 
@@ -133,13 +141,28 @@ const app = {
 
         // Khi next bài hát 
         nextBtn.onclick = function () {
-            _this.nextSong();
+            if (_this.isRandom) {
+                _this.playRandomSong();
+            } else {
+                _this.nextSong();
+            }
             audio.play();
         }
+
         // Khi back bài hát 
         prevBtn.onclick = function () {
-            _this.prevSong();
+            if (_this.isRandom) {
+                _this.playRandomSong();
+            } else {
+                _this.prevSong();
+            }
             audio.play();
+        }
+
+        // Xử lý bật tắt random song 
+        randomBtn.onclick = function (e) {
+            _this.isRandom = !_this.isRandom;
+            randomBtn.classList.add('active', _this.isRandom);
         }
     },
     loadCurrentSong: function () {
@@ -159,6 +182,15 @@ const app = {
         if (this.currentIndex < 0) {
             this.currentIndex = this.songs.length - 1;
         }
+        this.loadCurrentSong();
+    },
+    playRandomSong: function () {
+        let newIndex;
+        do {
+            newIndex = Math.floor(Math.random() * this.songs.length);
+        } while (newIndex === this.currentIndex);
+
+        this.currentIndex = newIndex;
         this.loadCurrentSong();
     },
 
