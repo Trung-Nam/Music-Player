@@ -55,9 +55,9 @@ const app = {
     ],
 
     render: function () {
-        const htmls = this.songs.map(song => {
+        const htmls = this.songs.map((song, index) => {
             return `
-            <div class="song">
+            <div class="song ${index === this.currentIndex ? 'active' : ''}">
             <div class="thumb"
                 style="background-image: url('${song.image}')">
             </div>
@@ -150,6 +150,7 @@ const app = {
                 _this.nextSong();
             }
             audio.play();
+            _this.render();
         }
 
         // Khi back bài hát 
@@ -160,6 +161,7 @@ const app = {
                 _this.prevSong();
             }
             audio.play();
+            _this.render();
         }
 
         // Xử lý bật tắt random song 
@@ -176,9 +178,9 @@ const app = {
 
         // Xử lý next song khi audio ended
         audio.onended = function () {
-            if(_this.isRepeat){
+            if (_this.isRepeat) {
                 audio.play();
-            }else{
+            } else {
                 nextBtn.click();
             }
         }
