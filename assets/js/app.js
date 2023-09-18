@@ -108,6 +108,17 @@ const app = {
         const _this = this;
         const cdWidth = cd.offsetWidth;
 
+        // Xử lý CD quay / dừng
+        const cdThumdAnimate = cdThumd.animate([
+            {transform: 'rotate(360deg)'}
+        ],{
+            duration: 10000,
+            iterations: Infinity
+        });
+        cdThumdAnimate.pause();
+
+        
+
         // Xử lý phóng to / thu nhỏ CD
         document.onscroll = function () {
             const scrollTop = window.scrollY || document.documentElement.scrollTop;
@@ -131,12 +142,14 @@ const app = {
         audio.onplay = function () {
             _this.isPlaying = true;
             player.classList.add('playing');
+            cdThumdAnimate.play();
         }
 
         // Khi song bị pause 
         audio.onpause = function () {
             _this.isPlaying = false;
             player.classList.remove('playing');
+            cdThumdAnimate.pause();
         }
 
         // Khi tiến độ bài hát thay đổi
