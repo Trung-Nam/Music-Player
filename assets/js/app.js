@@ -22,7 +22,8 @@ const audio = $('#audio');
 const cd = $('.cd');
 const playBtn = $('.btn-toggle-play');
 const progress = $('#progress');
-
+const nextBtn = $('.btn-next');
+const prevBtn = $('.btn-prev');
 console.log(playBtn);
 const app = {
     currentIndex: 0,
@@ -33,42 +34,6 @@ const app = {
             singer: " Yan Nguyễn",
             path: "./music/Chỉ Bằng Cái Gật Đầu Remix - (Yan Nguyễn x Đại Mèo).mp3",
             image: "./img/Chỉ Bằng Cái Gật Đầu (Remix).jpg"
-        },
-        {
-            name: "Đế Vương Remix",
-            singer: "Dunghoangpham x Đình Dũng x Ciray",
-            path: "./music/Đế Vương Remix.mp3",
-            image: "./img/Đế Vương Remix.jpg"
-        },
-        {
-            name: "Đế Vương Remix",
-            singer: "Dunghoangpham x Đình Dũng x Ciray",
-            path: "./music/Đế Vương Remix.mp3",
-            image: "./img/Đế Vương Remix.jpg"
-        },
-        {
-            name: "Đế Vương Remix",
-            singer: "Dunghoangpham x Đình Dũng x Ciray",
-            path: "./music/Đế Vương Remix.mp3",
-            image: "./img/Đế Vương Remix.jpg"
-        },
-        {
-            name: "Đế Vương Remix",
-            singer: "Dunghoangpham x Đình Dũng x Ciray",
-            path: "./music/Đế Vương Remix.mp3",
-            image: "./img/Đế Vương Remix.jpg"
-        },
-        {
-            name: "Đế Vương Remix",
-            singer: "Dunghoangpham x Đình Dũng x Ciray",
-            path: "./music/Đế Vương Remix.mp3",
-            image: "./img/Đế Vương Remix.jpg"
-        },
-        {
-            name: "Đế Vương Remix",
-            singer: "Dunghoangpham x Đình Dũng x Ciray",
-            path: "./music/Đế Vương Remix.mp3",
-            image: "./img/Đế Vương Remix.jpg"
         },
         {
             name: "Đế Vương Remix",
@@ -110,14 +75,14 @@ const app = {
 
         // Xử lý CD quay / dừng
         const cdThumdAnimate = cdThumd.animate([
-            {transform: 'rotate(360deg)'}
-        ],{
+            { transform: 'rotate(360deg)' }
+        ], {
             duration: 10000,
             iterations: Infinity
         });
         cdThumdAnimate.pause();
 
-        
+
 
         // Xử lý phóng to / thu nhỏ CD
         document.onscroll = function () {
@@ -165,12 +130,38 @@ const app = {
             const seekTime = audio.duration / 100 * e.target.value;
             audio.currentTime = seekTime;
         }
+
+        // Khi next bài hát 
+        nextBtn.onclick = function () {
+            _this.nextSong();
+            audio.play();
+        }
+        // Khi back bài hát 
+        prevBtn.onclick = function () {
+            _this.prevSong();
+            audio.play();
+        }
     },
     loadCurrentSong: function () {
         heading.textContent = this.currentSong.name;
         cdThumd.style.backgroundImage = `url('${this.currentSong.image}')`;
         audio.src = this.currentSong.path;
     },
+    nextSong: function () {
+        this.currentIndex++;
+        if (this.currentIndex >= this.songs.length) {
+            this.currentIndex = 0;
+        }
+        this.loadCurrentSong();
+    },
+    prevSong: function () {
+        this.currentIndex--;
+        if (this.currentIndex < 0) {
+            this.currentIndex = this.songs.length - 1;
+        }
+        this.loadCurrentSong();
+    },
+
     start: function () {
 
         // Đinh nghĩa các thuộc tính cho object
